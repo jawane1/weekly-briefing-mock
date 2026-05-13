@@ -4,367 +4,404 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weekly Briefing — Proposed Layout</title>
-    <link rel="stylesheet" href="/assets/pages-theme.css" />
+    <style>
+      :root {
+        --bg: #f8f9fa;
+        --card: #ffffff;
+        --text: #1a1a2e;
+        --text-muted: #6b7280;
+        --border: #e5e7eb;
+        --primary: #1a73e8;
+        --success: #16a34a;
+        --warning: #d97706;
+        --info: #2563eb;
+        --destructive: #dc2626;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111118;
+          --card: #1c1c27;
+          --text: #e4e4e7;
+          --text-muted: #9ca3af;
+          --border: #2e2e3a;
+          --primary: #60a5fa;
+          --success: #4ade80;
+          --warning: #fbbf24;
+          --info: #60a5fa;
+          --destructive: #f87171;
+        }
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+      .container { max-width: 800px; margin: 0 auto; padding: 40px 16px; }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        margin-bottom: 24px;
+        overflow: hidden;
+      }
+      .card-header {
+        padding: 16px 20px 0;
+      }
+      .card-body { padding: 16px 20px 20px; }
+      h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+      h2 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+      .subtitle { font-size: 13px; color: var(--text-muted); }
+      .text-center { text-align: center; }
+      a { color: var(--primary); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+      /* Stat banner */
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .stat-cell {
+        text-align: center;
+        padding: 16px 8px;
+        border-right: 1px solid var(--border);
+      }
+      .stat-cell:last-child { border-right: none; }
+      .stat-value { font-size: 24px; font-weight: 700; }
+      .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+      .color-primary { color: var(--primary); }
+      .color-success { color: var(--success); }
+      .color-warning { color: var(--warning); }
+      .color-info { color: var(--info); }
+
+      /* Mention table */
+      .mention-row { padding: 10px 0; border-bottom: 1px solid var(--border); }
+      .mention-row:last-child { border-bottom: none; }
+      .mention-title { font-size: 14px; font-weight: 500; color: var(--primary); }
+      .mention-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+      /* Theme cards */
+      .theme-card {
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-left: 3px solid;
+      }
+      .theme-persistent { background: rgba(217, 119, 6, 0.08); border-left-color: var(--warning); }
+      .theme-emerging { background: rgba(37, 99, 235, 0.08); border-left-color: var(--info); }
+      .theme-title { font-size: 14px; font-weight: 600; }
+      .theme-desc { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+      .theme-relevance { font-size: 12px; font-style: italic; margin-top: 4px; }
+      .theme-links { margin-top: 8px; }
+      .theme-links a { font-size: 12px; display: block; margin-top: 3px; }
+
+      /* Badges */
+      .badge {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 1px 8px;
+        border-radius: 99px;
+        vertical-align: middle;
+        margin-left: 6px;
+      }
+      .badge-persistent { background: rgba(217, 119, 6, 0.15); color: var(--warning); }
+      .badge-recurring { background: rgba(217, 119, 6, 0.15); color: var(--warning); }
+      .badge-new { background: rgba(37, 99, 235, 0.12); color: var(--info); }
+      .trend-meta { font-size: 11px; color: var(--text-muted); margin-left: 6px; }
+
+      /* Bar chart */
+      .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+      .bar-label { width: 170px; font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+      .bar-track { flex: 1; height: 14px; background: var(--border); border-radius: 4px; overflow: hidden; }
+      .bar-fill { height: 100%; background: var(--primary); border-radius: 4px; }
+      .bar-count { width: 24px; text-align: right; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+
+      /* Seizure card */
+      .seizure-box {
+        border-radius: 8px;
+        padding: 14px;
+        background: rgba(22, 163, 74, 0.08);
+        border-left: 3px solid var(--success);
+      }
+      .seizure-box p { font-size: 14px; }
+      .seizure-box .sub { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+      /* Competitor */
+      .comp-item { margin-bottom: 14px; }
+      .comp-name { font-size: 14px; font-weight: 600; }
+      .comp-count { font-size: 12px; color: var(--text-muted); }
+      .comp-headline { font-size: 13px; margin-top: 2px; }
+      .comp-also { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+      /* Changes callout */
+      .changes-box {
+        background: var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 24px;
+      }
+      .changes-box h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+      .change-row { display: flex; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+      .check { color: var(--success); font-weight: 700; flex-shrink: 0; }
+      .cross { color: var(--destructive); font-weight: 700; flex-shrink: 0; }
+
+      /* Header label */
+      .card-header-row { display: flex; justify-content: space-between; align-items: baseline; }
+      .count-label { font-size: 12px; color: var(--text-muted); }
+
+      .footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 12px 0 40px; }
+    </style>
   </head>
-  <body class="bg-background text-foreground min-h-screen">
-    <div class="max-w-4xl mx-auto px-4 py-10 space-y-6">
+  <body>
+    <div class="container">
 
       <!-- Header -->
-      <div class="text-center space-y-2">
-        <p class="text-xs font-medium text-muted-foreground uppercase tracking-tight">Proposed Layout</p>
-        <h1 class="text-2xl font-bold tracking-tight">Weekly Briefing</h1>
-        <p class="text-sm text-muted-foreground">Week ending May 13, 2026</p>
-        <p class="text-xs text-muted-foreground">Weekly strategic overview of our media presence, competitive positioning, and emerging industry narratives across crypto and mainstream outlets.</p>
+      <div class="text-center" style="margin-bottom: 28px;">
+        <p style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Proposed Layout</p>
+        <h1>Weekly Briefing</h1>
+        <p class="subtitle">Week ending May 13, 2026</p>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Weekly strategic overview of our media presence, competitive positioning, and emerging industry narratives across crypto and mainstream outlets.</p>
       </div>
 
       <!-- Stat Banner -->
-      <div class="rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 flex flex-col gap-0 py-0">
-        <div class="grid grid-cols-4 divide-x divide-y-0" style="border-color: var(--border);">
-          <div class="text-center py-4 px-2">
-            <div class="text-2xl font-bold text-primary">11</div>
-            <div class="text-xs text-muted-foreground uppercase tracking-tight mt-1">Our Mentions</div>
+      <div class="card">
+        <div class="stat-grid">
+          <div class="stat-cell">
+            <div class="stat-value color-primary">11</div>
+            <div class="stat-label">Our Mentions</div>
           </div>
-          <div class="text-center py-4 px-2">
-            <div class="text-2xl font-bold text-success">47</div>
-            <div class="text-xs text-muted-foreground uppercase tracking-tight mt-1">Narrative</div>
+          <div class="stat-cell">
+            <div class="stat-value color-success">47</div>
+            <div class="stat-label">Narrative</div>
           </div>
-          <div class="text-center py-4 px-2">
-            <div class="text-2xl font-bold text-warning">29</div>
-            <div class="text-xs text-muted-foreground uppercase tracking-tight mt-1">Competitor</div>
+          <div class="stat-cell">
+            <div class="stat-value color-warning">29</div>
+            <div class="stat-label">Competitor</div>
           </div>
-          <div class="text-center py-4 px-2">
-            <div class="text-2xl font-bold" style="color: var(--info);">2</div>
-            <div class="text-xs text-muted-foreground uppercase tracking-tight mt-1">Persistent</div>
+          <div class="stat-cell">
+            <div class="stat-value color-info">2</div>
+            <div class="stat-label">Persistent</div>
           </div>
         </div>
       </div>
 
       <!-- Strategic Summary -->
-      <div class="rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 flex flex-col gap-4 py-4">
-        <div class="px-4">
-          <h2 class="text-base font-medium">Strategic Summary</h2>
-        </div>
-        <div class="px-4">
-          <p class="text-sm text-muted-foreground leading-relaxed">
+      <div class="card">
+        <div class="card-header"><h2>Strategic Summary</h2></div>
+        <div class="card-body">
+          <p style="font-size: 14px; color: var(--text-muted);">
             Our presence this week was driven by citations in coverage of the SEC's proposed digital asset custody framework and new DOJ crypto enforcement actions. The GENIUS Act stablecoin legislation advanced in the Senate, dominating narrative coverage. TRM Labs secured a notable partnership with a major European bank, while Elliptic published research on North Korean laundering techniques.
           </p>
         </div>
       </div>
 
-      <!-- ✅ FIX 1: Chainalysis in the News — now shows all 11, not 5 -->
-      <div class="rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 flex flex-col gap-4 py-4">
-        <div class="px-4 flex items-baseline justify-between">
-          <h2 class="text-base font-medium">📰 Chainalysis in the News</h2>
-          <span class="text-xs text-muted-foreground">11 mentions</span>
+      <!-- Chainalysis in the News — all 11 shown -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-row">
+            <h2>📰 Chainalysis in the News</h2>
+            <span class="count-label">11 mentions</span>
+          </div>
         </div>
-        <div class="px-4">
-          <table class="w-full text-sm">
-            <tbody class="divide-y">
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">SEC Proposes Crypto Custody Rules, Citing Chainalysis Risk Data</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">Bloomberg · May 12</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">DOJ Announces $240M Crypto Seizure With Blockchain Analytics Support</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">Reuters · May 11</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">How Blockchain Analytics Firms Are Shaping Crypto Compliance</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">Financial Times · May 11</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">Chainalysis Partners With Circle on Stablecoin Transaction Monitoring</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">CoinDesk · May 10</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">Senate Banking Committee Hearing Features Chainalysis Testimony on Illicit Finance</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">The Block · May 10</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">Crypto Crime Down 15% in 2026, New Report Shows</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">CoinTelegraph · May 9</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">UK FCA Cites Blockchain Analytics in New Cryptoasset Supervision Plan</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">Finextra · May 9</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">Inside the Race to Monitor Stablecoin Flows for AML Compliance</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">PYMNTS · May 8</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">Chainalysis Research: North Korean Hackers Shift Laundering Tactics</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">Decrypt · May 8</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">Blockchain Data Providers Expand European Footprint Amid MiCA</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">Ledger Insights · May 7</div>
-                </td>
-              </tr>
-              <tr class="hover:bg-muted transition-colors">
-                <td class="py-3">
-                  <a href="#" class="text-primary hover:underline font-medium text-sm">DeFi Protocol Compliance: Who's Watching the Smart Contracts?</a>
-                  <div class="text-xs text-muted-foreground mt-0.5">Unchained · May 7</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="card-body">
+          <div class="mention-row">
+            <a href="#" class="mention-title">SEC Proposes Crypto Custody Rules, Citing Chainalysis Risk Data</a>
+            <div class="mention-meta">Bloomberg · May 12</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">DOJ Announces $240M Crypto Seizure With Blockchain Analytics Support</a>
+            <div class="mention-meta">Reuters · May 11</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">How Blockchain Analytics Firms Are Shaping Crypto Compliance</a>
+            <div class="mention-meta">Financial Times · May 11</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">Chainalysis Partners With Circle on Stablecoin Transaction Monitoring</a>
+            <div class="mention-meta">CoinDesk · May 10</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">Senate Banking Committee Hearing Features Chainalysis Testimony on Illicit Finance</a>
+            <div class="mention-meta">The Block · May 10</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">Crypto Crime Down 15% in 2026, New Report Shows</a>
+            <div class="mention-meta">CoinTelegraph · May 9</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">UK FCA Cites Blockchain Analytics in New Cryptoasset Supervision Plan</a>
+            <div class="mention-meta">Finextra · May 9</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">Inside the Race to Monitor Stablecoin Flows for AML Compliance</a>
+            <div class="mention-meta">PYMNTS · May 8</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">Chainalysis Research: North Korean Hackers Shift Laundering Tactics</a>
+            <div class="mention-meta">Decrypt · May 8</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">Blockchain Data Providers Expand European Footprint Amid MiCA</a>
+            <div class="mention-meta">Ledger Insights · May 7</div>
+          </div>
+          <div class="mention-row">
+            <a href="#" class="mention-title">DeFi Protocol Compliance: Who's Watching the Smart Contracts?</a>
+            <div class="mention-meta">Unchained · May 7</div>
+          </div>
         </div>
       </div>
 
       <!-- Persistent Themes -->
-      <div class="rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 flex flex-col gap-4 py-4">
-        <div class="px-4">
-          <h2 class="text-base font-medium">🔥 Persistent Themes</h2>
-          <p class="text-xs text-muted-foreground mt-0.5">Narratives shaping the landscape.</p>
+      <div class="card">
+        <div class="card-header">
+          <h2>🔥 Persistent Themes</h2>
+          <p class="subtitle">Narratives shaping the landscape.</p>
         </div>
-        <div class="px-4 space-y-3">
-          <!-- Theme 1 -->
-          <div class="rounded-lg bg-warning/10 p-3" style="border-left: 3px solid var(--warning);">
-            <div class="flex items-baseline gap-2 flex-wrap">
-              <span class="font-medium text-sm">Stablecoin Legislation Momentum</span>
-              <span class="inline-flex h-5 items-center rounded-full border border-transparent px-2 py-0.5 text-xs font-medium bg-warning/20 text-warning">🔥 Persistent</span>
-              <span class="text-xs text-muted-foreground">📈 5x over 30 days</span>
+        <div class="card-body">
+          <div class="theme-card theme-persistent">
+            <div>
+              <span class="theme-title">Stablecoin Legislation Momentum</span>
+              <span class="badge badge-persistent">🔥 Persistent</span>
+              <span class="trend-meta">📈 5x over 30 days</span>
             </div>
-            <p class="text-sm text-muted-foreground mt-1">GENIUS Act advancing through Senate with bipartisan support, driving stablecoin compliance discussion globally.</p>
-            <p class="text-xs mt-1" style="font-style: italic;">🏢 Positions us centrally in compliance infrastructure conversations around stablecoin issuers.</p>
-            <div class="mt-2 space-y-1">
-              <a href="#" class="text-xs text-primary hover:underline block">Bloomberg: GENIUS Act Stablecoin Bill Clears Committee Vote</a>
-              <a href="#" class="text-xs text-primary hover:underline block">CoinDesk: Circle Backs Bipartisan Stablecoin Framework</a>
+            <p class="theme-desc">GENIUS Act advancing through Senate with bipartisan support, driving stablecoin compliance discussion globally.</p>
+            <p class="theme-relevance">🏢 Positions us centrally in compliance infrastructure conversations around stablecoin issuers.</p>
+            <div class="theme-links">
+              <a href="#">Bloomberg: GENIUS Act Stablecoin Bill Clears Committee Vote</a>
+              <a href="#">CoinDesk: Circle Backs Bipartisan Stablecoin Framework</a>
             </div>
           </div>
-          <!-- Theme 2 -->
-          <div class="rounded-lg bg-warning/10 p-3" style="border-left: 3px solid var(--warning);">
-            <div class="flex items-baseline gap-2 flex-wrap">
-              <span class="font-medium text-sm">DOJ Crypto Enforcement Acceleration</span>
-              <span class="inline-flex h-5 items-center rounded-full border border-transparent px-2 py-0.5 text-xs font-medium bg-warning/20 text-warning">🔁 Recurring</span>
-              <span class="text-xs text-muted-foreground">➡️ 3x over 30 days</span>
+          <div class="theme-card theme-persistent">
+            <div>
+              <span class="theme-title">DOJ Crypto Enforcement Acceleration</span>
+              <span class="badge badge-recurring">🔁 Recurring</span>
+              <span class="trend-meta">➡️ 3x over 30 days</span>
             </div>
-            <p class="text-sm text-muted-foreground mt-1">Department of Justice ramping crypto-related seizures and prosecutions, with multiple high-profile cases this week.</p>
-            <p class="text-xs mt-1" style="font-style: italic;">🏢 Our tools directly involved in several of these cases — strong proof-of-value narrative.</p>
-            <div class="mt-2 space-y-1">
-              <a href="#" class="text-xs text-primary hover:underline block">Reuters: DOJ Seizes $240M in Crypto Linked to Darknet Markets</a>
-              <a href="#" class="text-xs text-primary hover:underline block">The Block: US Prosecutors Charge 12 in Crypto Money Laundering Ring</a>
+            <p class="theme-desc">Department of Justice ramping crypto-related seizures and prosecutions, with multiple high-profile cases this week.</p>
+            <p class="theme-relevance">🏢 Our tools directly involved in several of these cases — strong proof-of-value narrative.</p>
+            <div class="theme-links">
+              <a href="#">Reuters: DOJ Seizes $240M in Crypto Linked to Darknet Markets</a>
+              <a href="#">The Block: US Prosecutors Charge 12 in Crypto Money Laundering Ring</a>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Emerging This Week -->
-      <div class="rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 flex flex-col gap-4 py-4">
-        <div class="px-4">
-          <h2 class="text-base font-medium">✨ Emerging This Week</h2>
-          <p class="text-xs text-muted-foreground mt-0.5">New themes to watch.</p>
+      <div class="card">
+        <div class="card-header">
+          <h2>✨ Emerging This Week</h2>
+          <p class="subtitle">New themes to watch.</p>
         </div>
-        <div class="px-4 space-y-3">
-          <div class="rounded-lg bg-info/10 p-3" style="border-left: 3px solid var(--info);">
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm">AI-Powered Compliance Tools</span>
-              <span class="inline-flex h-5 items-center rounded-full border border-transparent px-2 py-0.5 text-xs font-medium bg-info/10 text-info">✨ New</span>
-            </div>
-            <p class="text-sm text-muted-foreground mt-1">Multiple outlets covering AI integration into AML/KYC workflows, with regulators signalling openness to automation.</p>
+        <div class="card-body">
+          <div class="theme-card theme-emerging">
+            <span class="theme-title">AI-Powered Compliance Tools</span>
+            <span class="badge badge-new">✨ New</span>
+            <p class="theme-desc">Multiple outlets covering AI integration into AML/KYC workflows, with regulators signalling openness to automation.</p>
           </div>
-          <div class="rounded-lg bg-info/10 p-3" style="border-left: 3px solid var(--info);">
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm">MiCA Phase 2 CASP Authorisations</span>
-              <span class="inline-flex h-5 items-center rounded-full border border-transparent px-2 py-0.5 text-xs font-medium bg-info/10 text-info">✨ New</span>
-            </div>
-            <p class="text-sm text-muted-foreground mt-1">First wave of CASP authorisations under MiCA creating compliance demand across European crypto firms.</p>
+          <div class="theme-card theme-emerging">
+            <span class="theme-title">MiCA Phase 2 CASP Authorisations</span>
+            <span class="badge badge-new">✨ New</span>
+            <p class="theme-desc">First wave of CASP authorisations under MiCA creating compliance demand across European crypto firms.</p>
           </div>
-          <div class="rounded-lg bg-info/10 p-3" style="border-left: 3px solid var(--info);">
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm">Tokenised Treasury Funds</span>
-              <span class="inline-flex h-5 items-center rounded-full border border-transparent px-2 py-0.5 text-xs font-medium bg-info/10 text-info">✨ New</span>
-            </div>
-            <p class="text-sm text-muted-foreground mt-1">BlackRock and Franklin Templeton expanding tokenised money market offerings, blurring TradFi/crypto lines.</p>
+          <div class="theme-card theme-emerging">
+            <span class="theme-title">Tokenised Treasury Funds</span>
+            <span class="badge badge-new">✨ New</span>
+            <p class="theme-desc">BlackRock and Franklin Templeton expanding tokenised money market offerings, blurring TradFi/crypto lines.</p>
           </div>
         </div>
       </div>
 
-      <!-- Topic Coverage Heatmap -->
-      <div class="rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 flex flex-col gap-4 py-4">
-        <div class="px-4">
-          <h2 class="text-base font-medium">📊 Topic Coverage</h2>
-          <p class="text-xs text-muted-foreground mt-0.5">Articles by policy domain</p>
+      <!-- Topic Coverage -->
+      <div class="card">
+        <div class="card-header">
+          <h2>📊 Topic Coverage</h2>
+          <p class="subtitle">Articles by policy domain</p>
         </div>
-        <div class="px-4 space-y-2">
-          <div class="flex items-center gap-3">
-            <span class="text-xs text-muted-foreground w-40 flex-shrink-0">Stablecoins & Digital Payments</span>
-            <div class="flex-1 bg-muted rounded h-3.5 overflow-hidden"><div class="h-full bg-primary rounded" style="width:100%"></div></div>
-            <span class="text-xs font-semibold w-6 text-right">18</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-xs text-muted-foreground w-40 flex-shrink-0">Sanctions & Illicit Finance</span>
-            <div class="flex-1 bg-muted rounded h-3.5 overflow-hidden"><div class="h-full bg-primary rounded" style="width:72%"></div></div>
-            <span class="text-xs font-semibold w-6 text-right">13</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-xs text-muted-foreground w-40 flex-shrink-0">AML/CFT & Financial Crime</span>
-            <div class="flex-1 bg-muted rounded h-3.5 overflow-hidden"><div class="h-full bg-primary rounded" style="width:61%"></div></div>
-            <span class="text-xs font-semibold w-6 text-right">11</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-xs text-muted-foreground w-40 flex-shrink-0">MiCA & EU Regulation</span>
-            <div class="flex-1 bg-muted rounded h-3.5 overflow-hidden"><div class="h-full bg-primary rounded" style="width:44%"></div></div>
-            <span class="text-xs font-semibold w-6 text-right">8</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-xs text-muted-foreground w-40 flex-shrink-0">TradFi Integration</span>
-            <div class="flex-1 bg-muted rounded h-3.5 overflow-hidden"><div class="h-full bg-primary rounded" style="width:33%"></div></div>
-            <span class="text-xs font-semibold w-6 text-right">6</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-xs text-muted-foreground w-40 flex-shrink-0">AI & Compliance Automation</span>
-            <div class="flex-1 bg-muted rounded h-3.5 overflow-hidden"><div class="h-full bg-primary rounded" style="width:22%"></div></div>
-            <span class="text-xs font-semibold w-6 text-right">4</span>
-          </div>
+        <div class="card-body">
+          <div class="bar-row"><span class="bar-label">Stablecoins & Digital Payments</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-count">18</span></div>
+          <div class="bar-row"><span class="bar-label">Sanctions & Illicit Finance</span><div class="bar-track"><div class="bar-fill" style="width:72%"></div></div><span class="bar-count">13</span></div>
+          <div class="bar-row"><span class="bar-label">AML/CFT & Financial Crime</span><div class="bar-track"><div class="bar-fill" style="width:61%"></div></div><span class="bar-count">11</span></div>
+          <div class="bar-row"><span class="bar-label">MiCA & EU Regulation</span><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><span class="bar-count">8</span></div>
+          <div class="bar-row"><span class="bar-label">TradFi Integration</span><div class="bar-track"><div class="bar-fill" style="width:33%"></div></div><span class="bar-count">6</span></div>
+          <div class="bar-row"><span class="bar-label">AI & Compliance Automation</span><div class="bar-track"><div class="bar-fill" style="width:22%"></div></div><span class="bar-count">4</span></div>
         </div>
       </div>
 
       <!-- Seizure Scorecard -->
-      <div class="rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 flex flex-col gap-4 py-4">
-        <div class="px-4">
-          <h2 class="text-base font-medium">📊 Seize & Freeze Scorecard</h2>
-        </div>
-        <div class="px-4">
-          <div class="rounded-lg bg-success/10 p-4" style="border-left: 3px solid var(--success);">
-            <p class="text-sm">
-              🔗 <strong>$35.7B</strong> seized & frozen with Chainalysis involvement — <strong>412 cases</strong>
-            </p>
-            <p class="text-xs text-muted-foreground mt-2">
-              2026 YTD: $4.2B seized (38 cases) · $1.8B frozen (22 cases)
-            </p>
+      <div class="card">
+        <div class="card-header"><h2>📊 Seize & Freeze Scorecard</h2></div>
+        <div class="card-body">
+          <div class="seizure-box">
+            <p>🔗 <strong>$35.7B</strong> seized & frozen with Chainalysis involvement — <strong>412 cases</strong></p>
+            <p class="sub">2026 YTD: $4.2B seized (38 cases) · $1.8B frozen (22 cases)</p>
           </div>
         </div>
       </div>
 
-      <!-- ✅ FIX 3: Single "Competitor Watch" section — no separate "Spotlight" -->
-      <div class="rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 flex flex-col gap-4 py-4">
-        <div class="px-4">
-          <h2 class="text-base font-medium">🏢 Competitor Watch</h2>
-        </div>
-        <div class="px-4 space-y-3">
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm">TRM Labs</span>
-              <span class="text-xs text-muted-foreground">(8 articles)</span>
-            </div>
-            <a href="#" class="text-sm text-primary hover:underline block mt-0.5">TRM Labs Partners With Deutsche Bank for Crypto Transaction Monitoring</a>
-            <span class="text-xs text-muted-foreground">Reuters</span>
-            <div class="text-xs text-muted-foreground mt-1">Also: <a href="#" class="text-primary hover:underline">CoinDesk</a>, <a href="#" class="text-primary hover:underline">The Block</a>, <a href="#" class="text-primary hover:underline">Decrypt</a></div>
+      <!-- Competitor Watch — single section, no Spotlight -->
+      <div class="card">
+        <div class="card-header"><h2>🏢 Competitor Watch</h2></div>
+        <div class="card-body">
+          <div class="comp-item">
+            <span class="comp-name">TRM Labs</span> <span class="comp-count">(8 articles)</span>
+            <div class="comp-headline"><a href="#">TRM Labs Partners With Deutsche Bank for Crypto Transaction Monitoring</a> — <span style="color:var(--text-muted);font-size:12px;">Reuters</span></div>
+            <div class="comp-also">Also: <a href="#">CoinDesk</a>, <a href="#">The Block</a>, <a href="#">Decrypt</a></div>
           </div>
-          <hr />
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm">Elliptic</span>
-              <span class="text-xs text-muted-foreground">(6 articles)</span>
-            </div>
-            <a href="#" class="text-sm text-primary hover:underline block mt-0.5">Elliptic Research: North Korean Hackers Used New DeFi Bridge Technique</a>
-            <span class="text-xs text-muted-foreground">Bloomberg</span>
-            <div class="text-xs text-muted-foreground mt-1">Also: <a href="#" class="text-primary hover:underline">Wired</a>, <a href="#" class="text-primary hover:underline">CoinTelegraph</a></div>
+          <hr>
+          <div class="comp-item">
+            <span class="comp-name">Elliptic</span> <span class="comp-count">(6 articles)</span>
+            <div class="comp-headline"><a href="#">Elliptic Research: North Korean Hackers Used New DeFi Bridge Technique</a> — <span style="color:var(--text-muted);font-size:12px;">Bloomberg</span></div>
+            <div class="comp-also">Also: <a href="#">Wired</a>, <a href="#">CoinTelegraph</a></div>
           </div>
-          <hr />
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm">Arkham Intelligence</span>
-              <span class="text-xs text-muted-foreground">(5 articles)</span>
-            </div>
-            <a href="#" class="text-sm text-primary hover:underline block mt-0.5">Arkham Launches Enterprise Analytics Dashboard for Institutions</a>
-            <span class="text-xs text-muted-foreground">The Block</span>
-            <div class="text-xs text-muted-foreground mt-1">Also: <a href="#" class="text-primary hover:underline">DL News</a>, <a href="#" class="text-primary hover:underline">CryptoSlate</a></div>
+          <hr>
+          <div class="comp-item">
+            <span class="comp-name">Arkham Intelligence</span> <span class="comp-count">(5 articles)</span>
+            <div class="comp-headline"><a href="#">Arkham Launches Enterprise Analytics Dashboard for Institutions</a> — <span style="color:var(--text-muted);font-size:12px;">The Block</span></div>
+            <div class="comp-also">Also: <a href="#">DL News</a>, <a href="#">CryptoSlate</a></div>
           </div>
-          <hr />
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm">Nansen</span>
-              <span class="text-xs text-muted-foreground">(4 articles)</span>
-            </div>
-            <a href="#" class="text-sm text-primary hover:underline block mt-0.5">Nansen Expands Solana Coverage With Real-Time Wallet Labels</a>
-            <span class="text-xs text-muted-foreground">CoinDesk</span>
+          <hr>
+          <div class="comp-item">
+            <span class="comp-name">Nansen</span> <span class="comp-count">(4 articles)</span>
+            <div class="comp-headline"><a href="#">Nansen Expands Solana Coverage With Real-Time Wallet Labels</a> — <span style="color:var(--text-muted);font-size:12px;">CoinDesk</span></div>
           </div>
-          <hr />
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm">Crystal Intelligence</span>
-              <span class="text-xs text-muted-foreground">(3 articles)</span>
-            </div>
-            <a href="#" class="text-sm text-primary hover:underline block mt-0.5">Crystal Partners With Middle East Exchange on Travel Rule Compliance</a>
-            <span class="text-xs text-muted-foreground">Finextra</span>
+          <hr>
+          <div class="comp-item">
+            <span class="comp-name">Crystal Intelligence</span> <span class="comp-count">(3 articles)</span>
+            <div class="comp-headline"><a href="#">Crystal Partners With Middle East Exchange on Travel Rule Compliance</a> — <span style="color:var(--text-muted);font-size:12px;">Finextra</span></div>
           </div>
-          <hr />
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm">Solidus Labs</span>
-              <span class="text-xs text-muted-foreground">(2 articles)</span>
-            </div>
-            <a href="#" class="text-sm text-primary hover:underline block mt-0.5">Solidus Labs Launches Market Surveillance Tool for MiCA Compliance</a>
-            <span class="text-xs text-muted-foreground">Crowdfund Insider</span>
+          <hr>
+          <div class="comp-item">
+            <span class="comp-name">Solidus Labs</span> <span class="comp-count">(2 articles)</span>
+            <div class="comp-headline"><a href="#">Solidus Labs Launches Market Surveillance Tool for MiCA Compliance</a> — <span style="color:var(--text-muted);font-size:12px;">Crowdfund Insider</span></div>
           </div>
-          <hr />
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm text-muted-foreground">CipherTrace</span>
-              <span class="text-xs text-muted-foreground">(1 article)</span>
-            </div>
-            <a href="#" class="text-sm text-primary hover:underline block mt-0.5">Legacy Blockchain Analytics Brand CipherTrace Fully Absorbed by Mastercard</a>
-            <span class="text-xs text-muted-foreground">PYMNTS</span>
+          <hr>
+          <div class="comp-item">
+            <span class="comp-name" style="color:var(--text-muted);">CipherTrace</span> <span class="comp-count">(1 article)</span>
+            <div class="comp-headline"><a href="#">Legacy Blockchain Analytics Brand CipherTrace Fully Absorbed by Mastercard</a> — <span style="color:var(--text-muted);font-size:12px;">PYMNTS</span></div>
           </div>
-          <hr />
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-medium text-sm text-muted-foreground">Merkle Science</span>
-              <span class="text-xs text-muted-foreground">(0 articles)</span>
-            </div>
-            <span class="text-xs text-muted-foreground">No coverage this week.</span>
+          <hr>
+          <div class="comp-item">
+            <span class="comp-name" style="color:var(--text-muted);">Merkle Science</span> <span class="comp-count">(0 articles)</span>
+            <div style="font-size:12px;color:var(--text-muted);">No coverage this week.</div>
           </div>
         </div>
       </div>
 
-      <!-- ✅ FIX 2: NO "Market Landscape" section -->
-      <!-- ✅ FIX 3: NO "Competitor Spotlight" section -->
-
-      <!-- Removed sections callout -->
-      <div class="rounded-xl bg-muted p-4 space-y-3">
-        <h3 class="text-sm font-semibold">📋 What changed vs. current layout</h3>
-        <div class="space-y-2 text-sm">
-          <div class="flex gap-2">
-            <span class="text-success font-bold flex-shrink-0">✓</span>
-            <span><strong>Mentions:</strong> Now shows all 11 articles instead of truncating to 5 with no explanation.</span>
-          </div>
-          <div class="flex gap-2">
-            <span class="text-destructive font-bold flex-shrink-0">✕</span>
-            <span><strong>Market Landscape:</strong> Removed. Redundant with Key Narratives + Executive Summary — same data, less structure.</span>
-          </div>
-          <div class="flex gap-2">
-            <span class="text-destructive font-bold flex-shrink-0">✕</span>
-            <span><strong>Competitor Spotlight:</strong> Removed. AI prose summary of TRM/Elliptic that just restated Competitor Watch headlines.</span>
-          </div>
-        </div>
+      <!-- Changes callout -->
+      <div class="changes-box">
+        <h3>📋 What changed vs. current layout</h3>
+        <div class="change-row"><span class="check">✓</span><span><strong>Mentions:</strong> Now shows all 11 articles instead of truncating to 5 with no explanation.</span></div>
+        <div class="change-row"><span class="cross">✕</span><span><strong>Market Landscape:</strong> Removed. Redundant with Key Narratives + Executive Summary — same data, less structure.</span></div>
+        <div class="change-row"><span class="cross">✕</span><span><strong>Competitor Spotlight:</strong> Removed. AI prose summary of TRM/Elliptic that just restated Competitor Watch headlines.</span></div>
       </div>
 
       <!-- Footer -->
-      <div class="text-center">
-        <p class="text-xs text-muted-foreground">Chainalysis Weekly Briefing · May 13, 2026 · 87 articles analysed</p>
-      </div>
+      <div class="footer">Chainalysis Weekly Briefing · May 13, 2026 · 87 articles analysed</div>
 
     </div>
   </body>
