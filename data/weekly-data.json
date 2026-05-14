@@ -3,11 +3,11 @@
     "date": "2026-05-14",
     "url": "briefings/2026-05-14.html",
     "mentions": 8,
-    "narrative": 607,
+    "narrative": 610,
     "competitor_total": 19,
     "persistent_count": 5,
     "emerging_count": 0,
-    "articles_analysed": 1004,
+    "articles_analysed": 1003,
     "mention_categories": {
       "mainstream": 1,
       "crypto": 0,
@@ -16,8 +16,8 @@
       "niche": 6
     },
     "sentiment": {
-      "positive": 5,
-      "neutral": 3,
+      "positive": 6,
+      "neutral": 2,
       "negative": 0
     },
     "competitors": {
@@ -33,37 +33,37 @@
     "top_domains": [
       {
         "name": "Market Integrity & Surveillance",
-        "count": 184
+        "count": 183
       },
       {
         "name": "AI & Compliance Automation",
-        "count": 141
+        "count": 140
       },
       {
         "name": "Sanctions & Illicit Finance",
         "count": 116
       },
       {
-        "name": "International & Emerging Markets",
+        "name": "Stablecoins & Digital Payments",
         "count": 56
       },
       {
-        "name": "Stablecoins & Digital Payments",
+        "name": "International & Emerging Markets",
         "count": 55
       },
       {
         "name": "Geopolitics, Macro & Dollar Dominance",
-        "count": 53
+        "count": 55
       }
     ],
     "narratives": [
       "Institutional TradFi-Crypto Convergence & Tokenized Securities Mainstreaming",
-      "Stablecoin Infrastructure & Payment System Mainstreaming",
-      "Sanctions Enforcement & North Korean Illicit Attribution",
-      "AI & Compliance Automation Infrastructure Maturation",
-      "Emerging Markets Crypto Adoption & India Transaction Dominance"
+      "Stablecoin Infrastructure Mainstreaming & Regulatory Framework Tightening",
+      "Sanctions Enforcement & North Korean Illicit Attribution Dominance",
+      "AI & Compliance Automation Infrastructure Maturation Amid Arms Race Risk",
+      "Market Integrity & Prediction Market Surveillance Institutionalization"
     ],
-    "headline": "Institutional crypto adoption accelerates with major tokenized securities launches from JPMorgan and BlackRock, while stablecoin infrastructure matures as payment systems scale toward quadrillion-doll"
+    "headline": "Institutional adoption of blockchain infrastructure accelerated this week with major announcements from JPMorgan, BlackRock, and Circle, while regulatory focus intensified on stablecoin frameworks and"
   },
   {
     "date": "2026-05-12",
