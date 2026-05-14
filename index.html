@@ -15,12 +15,8 @@
         --success: #16a34a;
         --warning: #d97706;
         --info: #2563eb;
-        --destructive: #dc2626;
         --chart-us: #1a73e8;
         --chart-comp: #f57c00;
-        --chart-positive: #16a34a;
-        --chart-neutral: #6b7280;
-        --chart-negative: #dc2626;
         --chart-mainstream: #1a73e8;
         --chart-crypto: #7c3aed;
         --chart-fintech: #0891b2;
@@ -38,12 +34,8 @@
           --success: #4ade80;
           --warning: #fbbf24;
           --info: #60a5fa;
-          --destructive: #f87171;
           --chart-us: #60a5fa;
           --chart-comp: #fbbf24;
-          --chart-positive: #4ade80;
-          --chart-neutral: #9ca3af;
-          --chart-negative: #f87171;
           --chart-mainstream: #60a5fa;
           --chart-crypto: #a78bfa;
           --chart-fintech: #22d3ee;
@@ -64,37 +56,41 @@
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: 12px;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         overflow: hidden;
       }
       .card-header { padding: 16px 20px 0; }
       .card-body { padding: 16px 20px 20px; }
       h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
-      h2 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+      h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
       h3 { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
       .subtitle { font-size: 13px; color: var(--text-muted); }
       .text-center { text-align: center; }
       a { color: var(--primary); text-decoration: none; }
       a:hover { text-decoration: underline; }
-      hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
 
-      /* Dashboard grid */
-      .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 8px; }
       @media (max-width: 640px) { .dash-grid { grid-template-columns: 1fr; } }
 
-      /* Chart containers */
-      .chart-box { position: relative; }
-      .chart-box canvas { width: 100% !important; height: 180px !important; }
-      .chart-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-      .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); }
+      /* Stacked bars */
+      .spark-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+      .spark-label { width: 80px; font-size: 11px; color: var(--text-muted); flex-shrink: 0; text-align: right; }
+      .spark-bar { flex: 1; height: 20px; border-radius: 4px; overflow: hidden; display: flex; }
+      .spark-segment { height: 100%; }
+      .spark-value { width: 24px; text-align: right; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+      .chart-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+      .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-muted); }
       .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-      /* Sparkline inline */
-      .spark-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
-      .spark-label { width: 140px; font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
-      .spark-bar { flex: 1; height: 20px; border-radius: 4px; overflow: hidden; display: flex; }
-      .spark-segment { height: 100%; transition: width 0.3s; }
-      .spark-value { width: 30px; text-align: right; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+      /* Share of voice */
+      .sov-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+      .sov-name { width: 130px; font-size: 12px; flex-shrink: 0; }
+      .sov-name.us { font-weight: 600; color: var(--primary); }
+      .sov-track { flex: 1; height: 18px; background: var(--border); border-radius: 4px; overflow: hidden; }
+      .sov-fill { height: 100%; border-radius: 4px; }
+      .sov-fill.us { background: var(--chart-us); }
+      .sov-fill.comp { background: var(--chart-comp); opacity: 0.7; }
+      .sov-count { width: 28px; text-align: right; font-size: 12px; font-weight: 600; flex-shrink: 0; }
 
       /* Briefing cards */
       .briefing-card {
@@ -102,7 +98,7 @@
         border: 1px solid var(--border);
         border-radius: 12px;
         padding: 20px;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
         transition: border-color 0.2s;
         cursor: pointer;
         text-decoration: none;
@@ -110,13 +106,12 @@
         color: var(--text);
       }
       .briefing-card:hover { border-color: var(--primary); text-decoration: none; }
-      .briefing-card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-      .briefing-date { font-size: 16px; font-weight: 600; }
-      .briefing-stats { display: flex; gap: 16px; font-size: 12px; color: var(--text-muted); }
-      .briefing-stat { display: flex; align-items: center; gap: 4px; }
+      .briefing-card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+      .briefing-date { font-size: 15px; font-weight: 600; }
+      .briefing-stats { display: flex; gap: 14px; font-size: 12px; color: var(--text-muted); }
       .briefing-stat strong { color: var(--text); font-weight: 600; }
-      .briefing-headline { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
-      .briefing-narratives { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .briefing-headline { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+      .briefing-narratives { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
       .narrative-tag {
         font-size: 10px;
         padding: 2px 8px;
@@ -126,170 +121,101 @@
         white-space: nowrap;
       }
 
-      /* Narrative heatmap */
-      .heatmap { width: 100%; border-collapse: collapse; font-size: 11px; }
-      .heatmap th { text-align: left; padding: 6px 8px; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border); }
-      .heatmap td { padding: 6px 8px; border-bottom: 1px solid var(--border); }
-      .heatmap-cell { width: 40px; text-align: center; }
-      .heat-dot {
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        border-radius: 3px;
-      }
-      .heat-active { background: var(--primary); opacity: 0.8; }
-      .heat-empty { background: var(--border); opacity: 0.3; }
-
-      /* Share of voice bar */
-      .sov-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-      .sov-name { width: 130px; font-size: 12px; flex-shrink: 0; }
-      .sov-name.us { font-weight: 600; color: var(--primary); }
-      .sov-track { flex: 1; height: 18px; background: var(--border); border-radius: 4px; overflow: hidden; }
-      .sov-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
-      .sov-fill.us { background: var(--chart-us); }
-      .sov-fill.comp { background: var(--chart-comp); opacity: 0.7; }
-      .sov-count { width: 30px; text-align: right; font-size: 12px; font-weight: 600; flex-shrink: 0; }
-
-      .footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 12px 0 40px; }
-      .empty-state { text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 20px; }
+      .footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 20px 0 40px; }
     </style>
   </head>
   <body>
     <div class="container">
 
-      <!-- Header -->
       <div class="text-center" style="margin-bottom: 32px;">
         <h1>📋 Weekly Briefing Archive</h1>
-        <p class="subtitle" style="margin-top: 4px;">Chainalysis media intelligence — weekly strategic briefings with trend tracking.</p>
+        <p class="subtitle" style="margin-top: 4px;">Chainalysis media intelligence — trend tracking across weekly briefings.</p>
       </div>
 
-      <!-- Dashboard — populated by JS from weekly-data.json -->
       <div id="dashboard"></div>
-
-      <!-- Briefing list -->
       <div id="briefing-list"></div>
 
       <div class="footer">Chainalysis Weekly Briefing Archive</div>
     </div>
 
     <script>
-      const DATA_PATH = 'data/weekly-data.json';
-
       async function init() {
         let data;
         try {
-          const resp = await fetch(DATA_PATH);
+          const resp = await fetch('data/weekly-data.json');
           data = await resp.json();
         } catch (e) {
           document.getElementById('briefing-list').innerHTML =
-            '<div class="empty-state">Could not load briefing data.</div>';
+            '<p style="text-align:center;color:var(--text-muted);padding:40px;">Could not load briefing data.</p>';
           return;
         }
-
-        // Sort newest first
         data.sort((a, b) => b.date.localeCompare(a.date));
-
         renderDashboard(data);
         renderBriefingList(data);
       }
 
-      function formatDate(dateStr) {
-        const d = new Date(dateStr + 'T00:00:00');
-        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      function fmtDate(d) {
+        return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+      function shortDate(d) {
+        return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       }
 
       function renderDashboard(data) {
         const el = document.getElementById('dashboard');
-        if (data.length === 0) { el.innerHTML = ''; return; }
-
-        // Reverse for chronological charts
+        if (!data.length) return;
         const chrono = [...data].reverse();
         const latest = data[0];
-        const prev = data.length > 1 ? data[1] : null;
 
-        // Delta helper
-        function delta(curr, prevVal) {
-          if (prevVal === null || prevVal === undefined) return '';
-          const d = curr - prevVal;
-          if (d === 0) return ' <span style="color:var(--text-muted)">→ flat</span>';
-          const arrow = d > 0 ? '↑' : '↓';
-          const color = d > 0 ? 'var(--success)' : 'var(--destructive)';
-          return ` <span style="color:${color}">${arrow}${Math.abs(d)}</span>`;
-        }
+        let html = '<div class="dash-grid">';
 
-        let html = '';
-
-        // ── Latest stats row ───────────────────────────
+        // ── 1. Share of Voice ──────────────────────────
         html += `<div class="card">
-          <div class="card-header"><h2>Latest: Week of ${formatDate(latest.date)}</h2></div>
-          <div class="card-body">
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;">
-              <div>
-                <div style="font-size:28px;font-weight:700;color:var(--primary);">${latest.mentions}</div>
-                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Mentions${delta(latest.mentions, prev?.mentions)}</div>
-              </div>
-              <div>
-                <div style="font-size:28px;font-weight:700;color:var(--success);">${latest.narrative}</div>
-                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Narrative</div>
-              </div>
-              <div>
-                <div style="font-size:28px;font-weight:700;color:var(--warning);">${latest.competitor_total}</div>
-                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Competitor${delta(latest.competitor_total, prev?.competitor_total)}</div>
-              </div>
-              <div>
-                <div style="font-size:28px;font-weight:700;color:var(--info);">${latest.persistent_count}</div>
-                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Persistent</div>
-              </div>
-            </div>
-          </div>
-        </div>`;
-
-        // ── Charts grid ────────────────────────────────
-        html += '<div class="dash-grid">';
-
-        // 1. Source Quality Mix
-        html += `<div class="card">
-          <div class="card-header"><h3>📡 Source Quality Mix</h3></div>
-          <div class="card-body">${renderSourceBars(chrono)}</div>
-        </div>`;
-
-        // 2. Sentiment Trend
-        html += `<div class="card">
-          <div class="card-header"><h3>💬 Sentiment Trend</h3></div>
-          <div class="card-body">${renderSentimentBars(chrono)}</div>
-        </div>`;
-
-        // 3. Share of Voice
-        html += `<div class="card">
-          <div class="card-header"><h3>📊 Share of Voice — Us vs Competitors</h3></div>
+          <div class="card-header"><h3>📊 Share of Voice</h3></div>
           <div class="card-body">${renderShareOfVoice(latest)}</div>
         </div>`;
 
-        // 4. Mention Trend (sparkline)
+        // ── 2. Source Quality Mix ──────────────────────
         html += `<div class="card">
-          <div class="card-header"><h3>📈 Mention Trend</h3></div>
-          <div class="card-body">${renderMentionTrend(chrono)}</div>
+          <div class="card-header"><h3>📡 Source Quality</h3></div>
+          <div class="card-body">${renderSourceBars(chrono)}</div>
         </div>`;
 
-        html += '</div>'; // close dash-grid
+        html += '</div>';
 
-        // 5. Narrative Persistence Heatmap (full width)
-        html += `<div class="card">
-          <div class="card-header"><h3>🗓️ Narrative Persistence Tracker</h3>
-            <p class="subtitle">Which themes keep appearing week after week</p>
-          </div>
-          <div class="card-body" style="overflow-x:auto;">${renderNarrativeHeatmap(chrono)}</div>
-        </div>`;
-
-        // 6. Domain Coverage Trend (full width)
-        html += `<div class="card">
-          <div class="card-header"><h3>🔥 Policy Domain Hotspots</h3>
-            <p class="subtitle">Top domains by article volume this week</p>
-          </div>
-          <div class="card-body">${renderDomainBars(latest)}</div>
-        </div>`;
+        // ── 3. Mention Trend (full width, only if 2+ weeks) ───
+        if (data.length >= 2) {
+          html += `<div class="card">
+            <div class="card-header"><h3>📈 Mention Trend</h3></div>
+            <div class="card-body">${renderMentionTrend(chrono)}</div>
+          </div>`;
+        }
 
         el.innerHTML = html;
+      }
+
+      function renderShareOfVoice(latest) {
+        const comps = latest.competitors || {};
+        const entries = [
+          { name: 'Chainalysis', count: latest.mentions, isUs: true },
+          ...Object.entries(comps)
+            .filter(([_, c]) => c > 0)
+            .sort((a, b) => b[1] - a[1])
+            .map(([name, count]) => ({ name, count, isUs: false }))
+        ];
+        const max = Math.max(...entries.map(e => e.count), 1);
+
+        let html = '';
+        for (const e of entries) {
+          html += `<div class="sov-row">
+            <span class="sov-name ${e.isUs ? 'us' : ''}">${e.isUs ? '● ' : ''}${e.name}</span>
+            <div class="sov-track">
+              <div class="sov-fill ${e.isUs ? 'us' : 'comp'}" style="width:${e.count/max*100}%"></div>
+            </div>
+            <span class="sov-count">${e.count}</span>
+          </div>`;
+        }
+        return html;
       }
 
       function renderSourceBars(data) {
@@ -307,17 +233,17 @@
           const mc = week.mention_categories || {};
           const total = Object.values(mc).reduce((s, v) => s + v, 0) || 1;
           html += `<div class="spark-row">
-            <span class="spark-label">${formatDate(week.date)}</span>
+            <span class="spark-label">${shortDate(week.date)}</span>
             <div class="spark-bar">`;
           for (const cat of cats) {
-            const pct = ((mc[cat] || 0) / total * 100);
+            const pct = (mc[cat] || 0) / total * 100;
             if (pct > 0) {
               html += `<div class="spark-segment" style="width:${pct}%;background:${colors[cat]}" title="${cat}: ${mc[cat] || 0}"></div>`;
             }
           }
           html += `</div><span class="spark-value">${total}</span></div>`;
         }
-        html += `<div class="chart-legend">`;
+        html += '<div class="chart-legend">';
         for (const cat of cats) {
           html += `<span class="legend-item"><span class="legend-dot" style="background:${colors[cat]}"></span>${cat}</span>`;
         }
@@ -325,180 +251,60 @@
         return html;
       }
 
-      function renderSentimentBars(data) {
-        let html = '';
-        for (const week of data) {
-          const s = week.sentiment || {};
-          const total = (s.positive || 0) + (s.neutral || 0) + (s.negative || 0) || 1;
-          html += `<div class="spark-row">
-            <span class="spark-label">${formatDate(week.date)}</span>
-            <div class="spark-bar">
-              <div class="spark-segment" style="width:${(s.positive||0)/total*100}%;background:var(--chart-positive)" title="Positive: ${s.positive||0}"></div>
-              <div class="spark-segment" style="width:${(s.neutral||0)/total*100}%;background:var(--chart-neutral)" title="Neutral: ${s.neutral||0}"></div>
-              <div class="spark-segment" style="width:${(s.negative||0)/total*100}%;background:var(--chart-negative)" title="Negative: ${s.negative||0}"></div>
-            </div>
-            <span class="spark-value">${total}</span>
-          </div>`;
-        }
-        html += `<div class="chart-legend">
-          <span class="legend-item"><span class="legend-dot" style="background:var(--chart-positive)"></span>positive</span>
-          <span class="legend-item"><span class="legend-dot" style="background:var(--chart-neutral)"></span>neutral</span>
-          <span class="legend-item"><span class="legend-dot" style="background:var(--chart-negative)"></span>negative</span>
-        </div>`;
-        return html;
-      }
-
-      function renderShareOfVoice(latest) {
-        const comps = latest.competitors || {};
-        const entries = [
-          { name: 'Chainalysis', count: latest.mentions, isUs: true },
-          ...Object.entries(comps)
-            .filter(([_, c]) => c > 0)
-            .sort((a, b) => b[1] - a[1])
-            .map(([name, count]) => ({ name, count, isUs: false }))
-        ];
-        const max = Math.max(...entries.map(e => e.count), 1);
-
-        let html = '';
-        for (const e of entries) {
-          const pct = (e.count / max * 100);
-          html += `<div class="sov-row">
-            <span class="sov-name ${e.isUs ? 'us' : ''}">${e.isUs ? '● ' : ''}${e.name}</span>
-            <div class="sov-track">
-              <div class="sov-fill ${e.isUs ? 'us' : 'comp'}" style="width:${pct}%"></div>
-            </div>
-            <span class="sov-count">${e.count}</span>
-          </div>`;
-        }
-        return html;
-      }
-
       function renderMentionTrend(data) {
-        if (data.length < 2) {
-          return `<div style="text-align:center;padding:20px;">
-            <div style="font-size:48px;font-weight:700;color:var(--primary);">${data[0]?.mentions || 0}</div>
-            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">mentions this week — trend line appears after 2+ weeks</div>
-          </div>`;
-        }
-
         const max = Math.max(...data.map(d => d.mentions), 1);
-        const h = 120, w = 300;
-        const step = w / (data.length - 1);
-        const points = data.map((d, i) => `${i * step},${h - (d.mentions / max * (h - 20)) - 10}`);
-        const line = points.join(' ');
+        const h = 100, pad = 15;
+        const w = 300;
+        const step = (w - pad * 2) / (data.length - 1);
 
-        let svg = `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;">`;
-        // Grid lines
-        for (let i = 0; i <= 4; i++) {
-          const y = 10 + (h - 20) / 4 * i;
-          svg += `<line x1="0" y1="${y}" x2="${w}" y2="${y}" stroke="var(--border)" stroke-width="0.5"/>`;
+        let svg = `<svg viewBox="0 0 ${w} ${h + 20}" style="width:100%;height:${h + 20}px;">`;
+        // Grid
+        for (let i = 0; i <= 3; i++) {
+          const y = pad + (h - pad * 2) / 3 * i;
+          svg += `<line x1="${pad}" y1="${y}" x2="${w - pad}" y2="${y}" stroke="var(--border)" stroke-width="0.5"/>`;
         }
-        // Line
-        svg += `<polyline points="${line}" fill="none" stroke="var(--chart-us)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-        // Dots
-        data.forEach((d, i) => {
-          const x = i * step;
-          const y = h - (d.mentions / max * (h - 20)) - 10;
-          svg += `<circle cx="${x}" cy="${y}" r="4" fill="var(--chart-us)"/>`;
-          svg += `<text x="${x}" y="${y - 10}" text-anchor="middle" font-size="10" fill="var(--text-muted)">${d.mentions}</text>`;
+        // Line + dots
+        const pts = data.map((d, i) => {
+          const x = pad + i * step;
+          const y = pad + (h - pad * 2) - (d.mentions / max * (h - pad * 2));
+          return { x, y, mentions: d.mentions, date: d.date };
         });
+        svg += `<polyline points="${pts.map(p => `${p.x},${p.y}`).join(' ')}" fill="none" stroke="var(--chart-us)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+        for (const p of pts) {
+          svg += `<circle cx="${p.x}" cy="${p.y}" r="4" fill="var(--chart-us)"/>`;
+          svg += `<text x="${p.x}" y="${p.y - 8}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--text)">${p.mentions}</text>`;
+          svg += `<text x="${p.x}" y="${h + 12}" text-anchor="middle" font-size="9" fill="var(--text-muted)">${shortDate(p.date)}</text>`;
+        }
         svg += '</svg>';
-
-        // Date labels
-        svg += '<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-top:4px;">';
-        data.forEach(d => { svg += `<span>${d.date.slice(5)}</span>`; });
-        svg += '</div>';
-
         return svg;
-      }
-
-      function renderNarrativeHeatmap(data) {
-        // Collect all unique narratives across all weeks
-        const allNarratives = [];
-        const seen = new Set();
-        for (const week of data) {
-          for (const n of (week.narratives || [])) {
-            const key = n.toLowerCase().slice(0, 40);
-            if (!seen.has(key)) {
-              seen.add(key);
-              allNarratives.push(n);
-            }
-          }
-        }
-
-        if (allNarratives.length === 0) return '<div class="empty-state">No narrative data yet.</div>';
-
-        let html = '<table class="heatmap"><thead><tr><th>Narrative</th>';
-        for (const week of data) {
-          html += `<th class="heatmap-cell">${week.date.slice(5)}</th>`;
-        }
-        html += '</tr></thead><tbody>';
-
-        for (const narrative of allNarratives) {
-          html += `<tr><td style="font-size:12px;max-width:250px;">${narrative.length > 50 ? narrative.slice(0, 50) + '…' : narrative}</td>`;
-          for (const week of data) {
-            const weekNorms = (week.narratives || []).map(n => n.toLowerCase().slice(0, 40));
-            const active = weekNorms.includes(narrative.toLowerCase().slice(0, 40));
-            html += `<td class="heatmap-cell"><span class="heat-dot ${active ? 'heat-active' : 'heat-empty'}"></span></td>`;
-          }
-          html += '</tr>';
-        }
-        html += '</tbody></table>';
-
-        if (data.length < 2) {
-          html += '<p style="font-size:11px;color:var(--text-muted);margin-top:8px;text-align:center;">Persistence patterns will emerge after 2+ weeks of data.</p>';
-        }
-
-        return html;
-      }
-
-      function renderDomainBars(latest) {
-        const domains = latest.top_domains || [];
-        if (domains.length === 0) return '<div class="empty-state">No domain data.</div>';
-        const max = domains[0]?.count || 1;
-
-        let html = '';
-        for (const d of domains) {
-          const pct = (d.count / max * 100);
-          html += `<div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
-            <span style="width:220px;font-size:12px;color:var(--text-muted);flex-shrink:0;">${d.name}</span>
-            <div style="flex:1;height:14px;background:var(--border);border-radius:4px;overflow:hidden;">
-              <div style="width:${pct}%;height:100%;background:var(--primary);border-radius:4px;"></div>
-            </div>
-            <span style="width:30px;text-align:right;font-size:12px;font-weight:600;flex-shrink:0;">${d.count}</span>
-          </div>`;
-        }
-        return html;
       }
 
       function renderBriefingList(data) {
         const el = document.getElementById('briefing-list');
-        if (data.length === 0) {
-          el.innerHTML = '<div class="empty-state">No briefings yet.</div>';
+        if (!data.length) {
+          el.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px;">No briefings yet.</p>';
           return;
         }
 
-        let html = '<h2 style="margin-bottom:16px;font-size:16px;">All Briefings</h2>';
-
+        let html = '<h2 style="margin-top:8px;">All Briefings</h2>';
         for (const week of data) {
-          const narTags = (week.narratives || []).slice(0, 4).map(n =>
-            `<span class="narrative-tag">${n.length > 35 ? n.slice(0, 35) + '…' : n}</span>`
+          const tags = (week.narratives || []).slice(0, 3).map(n =>
+            `<span class="narrative-tag">${n.length > 40 ? n.slice(0, 40) + '…' : n}</span>`
           ).join('');
 
           html += `<a href="${week.url}" class="briefing-card">
             <div class="briefing-card-header">
-              <span class="briefing-date">Week of ${formatDate(week.date)}</span>
+              <span class="briefing-date">Week of ${fmtDate(week.date)}</span>
               <div class="briefing-stats">
                 <span class="briefing-stat"><strong style="color:var(--primary)">${week.mentions}</strong> mentions</span>
                 <span class="briefing-stat"><strong style="color:var(--warning)">${week.competitor_total}</strong> competitor</span>
-                <span class="briefing-stat">${week.articles_analysed} analysed</span>
+                <span class="briefing-stat">${week.articles_analysed.toLocaleString()} analysed</span>
               </div>
             </div>
             <div class="briefing-headline">${week.headline || ''}</div>
-            <div class="briefing-narratives">${narTags}</div>
+            ${tags ? `<div class="briefing-narratives">${tags}</div>` : ''}
           </a>`;
         }
-
         el.innerHTML = html;
       }
 
