@@ -1,5 +1,71 @@
 [
   {
+    "date": "2026-05-14",
+    "url": "briefings/2026-05-14.html",
+    "mentions": 8,
+    "narrative": 607,
+    "competitor_total": 19,
+    "persistent_count": 5,
+    "emerging_count": 0,
+    "articles_analysed": 1004,
+    "mention_categories": {
+      "mainstream": 1,
+      "crypto": 0,
+      "fintech": 0,
+      "blog": 1,
+      "niche": 6
+    },
+    "sentiment": {
+      "positive": 5,
+      "neutral": 3,
+      "negative": 0
+    },
+    "competitors": {
+      "Elliptic": 8,
+      "TRM Labs": 3,
+      "CipherTrace": 0,
+      "Arkham Intelligence": 8,
+      "Nansen": 0,
+      "Crystal Intelligence": 0,
+      "Solidus Labs": 0,
+      "Merkle Science": 0
+    },
+    "top_domains": [
+      {
+        "name": "Market Integrity & Surveillance",
+        "count": 184
+      },
+      {
+        "name": "AI & Compliance Automation",
+        "count": 141
+      },
+      {
+        "name": "Sanctions & Illicit Finance",
+        "count": 116
+      },
+      {
+        "name": "International & Emerging Markets",
+        "count": 56
+      },
+      {
+        "name": "Stablecoins & Digital Payments",
+        "count": 55
+      },
+      {
+        "name": "Geopolitics, Macro & Dollar Dominance",
+        "count": 53
+      }
+    ],
+    "narratives": [
+      "Institutional TradFi-Crypto Convergence & Tokenized Securities Mainstreaming",
+      "Stablecoin Infrastructure & Payment System Mainstreaming",
+      "Sanctions Enforcement & North Korean Illicit Attribution",
+      "AI & Compliance Automation Infrastructure Maturation",
+      "Emerging Markets Crypto Adoption & India Transaction Dominance"
+    ],
+    "headline": "Institutional crypto adoption accelerates with major tokenized securities launches from JPMorgan and BlackRock, while stablecoin infrastructure matures as payment systems scale toward quadrillion-doll"
+  },
+  {
     "date": "2026-05-12",
     "url": "briefings/2026-05-12.html",
     "mentions": 11,
@@ -31,12 +97,30 @@
       "Merkle Science": 0
     },
     "top_domains": [
-      {"name": "Market Integrity & Surveillance", "count": 188},
-      {"name": "Sanctions & Illicit Finance", "count": 151},
-      {"name": "AI & Compliance Automation", "count": 139},
-      {"name": "DeFi Regulation & Governance", "count": 68},
-      {"name": "Stablecoins & Digital Payments", "count": 67},
-      {"name": "National Security & Defence", "count": 57}
+      {
+        "name": "Market Integrity & Surveillance",
+        "count": 188
+      },
+      {
+        "name": "Sanctions & Illicit Finance",
+        "count": 151
+      },
+      {
+        "name": "AI & Compliance Automation",
+        "count": 139
+      },
+      {
+        "name": "DeFi Regulation & Governance",
+        "count": 68
+      },
+      {
+        "name": "Stablecoins & Digital Payments",
+        "count": 67
+      },
+      {
+        "name": "National Security & Defence",
+        "count": 57
+      }
     ],
     "narratives": [
       "Stablecoin Infrastructure & Payment System Mainstreaming",
