@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weekly Briefing — Proposed Layout</title>
+    <title>Weekly Briefing Archive</title>
     <style>
       :root {
         --bg: #f8f9fa;
@@ -16,6 +16,16 @@
         --warning: #d97706;
         --info: #2563eb;
         --destructive: #dc2626;
+        --chart-us: #1a73e8;
+        --chart-comp: #f57c00;
+        --chart-positive: #16a34a;
+        --chart-neutral: #6b7280;
+        --chart-negative: #dc2626;
+        --chart-mainstream: #1a73e8;
+        --chart-crypto: #7c3aed;
+        --chart-fintech: #0891b2;
+        --chart-blog: #d97706;
+        --chart-niche: #9ca3af;
       }
       @media (prefers-color-scheme: dark) {
         :root {
@@ -29,6 +39,16 @@
           --warning: #fbbf24;
           --info: #60a5fa;
           --destructive: #f87171;
+          --chart-us: #60a5fa;
+          --chart-comp: #fbbf24;
+          --chart-positive: #4ade80;
+          --chart-neutral: #9ca3af;
+          --chart-negative: #f87171;
+          --chart-mainstream: #60a5fa;
+          --chart-crypto: #a78bfa;
+          --chart-fintech: #22d3ee;
+          --chart-blog: #fbbf24;
+          --chart-niche: #6b7280;
         }
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,7 +59,7 @@
         line-height: 1.6;
         min-height: 100vh;
       }
-      .container { max-width: 800px; margin: 0 auto; padding: 40px 16px; }
+      .container { max-width: 900px; margin: 0 auto; padding: 40px 16px; }
       .card {
         background: var(--card);
         border: 1px solid var(--border);
@@ -49,352 +69,440 @@
       }
       .card-header { padding: 16px 20px 0; }
       .card-body { padding: 16px 20px 20px; }
-      h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+      h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
       h2 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+      h3 { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
       .subtitle { font-size: 13px; color: var(--text-muted); }
       .text-center { text-align: center; }
       a { color: var(--primary); text-decoration: none; }
       a:hover { text-decoration: underline; }
-      hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+      hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
 
-      .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
-      .stat-cell { text-align: center; padding: 16px 8px; border-right: 1px solid var(--border); }
-      .stat-cell:last-child { border-right: none; }
-      .stat-value { font-size: 24px; font-weight: 700; }
-      .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
-      .color-primary { color: var(--primary); }
-      .color-success { color: var(--success); }
-      .color-warning { color: var(--warning); }
-      .color-info { color: var(--info); }
+      /* Dashboard grid */
+      .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      @media (max-width: 640px) { .dash-grid { grid-template-columns: 1fr; } }
 
-      .mention-row { padding: 10px 0; border-bottom: 1px solid var(--border); }
-      .mention-row:last-child { border-bottom: none; }
-      .mention-title { font-size: 14px; font-weight: 500; color: var(--primary); }
-      .mention-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-      .mention-badges { margin-top: 4px; }
+      /* Chart containers */
+      .chart-box { position: relative; }
+      .chart-box canvas { width: 100% !important; height: 180px !important; }
+      .chart-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+      .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); }
+      .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-      .theme-card { border-radius: 8px; padding: 12px; margin-bottom: 10px; border-left: 3px solid; }
-      .theme-persistent { background: rgba(217, 119, 6, 0.08); border-left-color: var(--warning); }
-      .theme-emerging { background: rgba(37, 99, 235, 0.08); border-left-color: var(--info); }
-      .theme-title { font-size: 14px; font-weight: 600; }
-      .theme-desc { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-      .theme-relevance { font-size: 12px; font-style: italic; margin-top: 4px; }
-      .theme-links { margin-top: 8px; }
-      .theme-links a { font-size: 12px; display: block; margin-top: 3px; }
+      /* Sparkline inline */
+      .spark-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+      .spark-label { width: 140px; font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+      .spark-bar { flex: 1; height: 20px; border-radius: 4px; overflow: hidden; display: flex; }
+      .spark-segment { height: 100%; transition: width 0.3s; }
+      .spark-value { width: 30px; text-align: right; font-size: 12px; font-weight: 600; flex-shrink: 0; }
 
-      .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 8px; border-radius: 99px; vertical-align: middle; margin-left: 6px; }
-      .badge-persistent { background: rgba(217, 119, 6, 0.15); color: var(--warning); }
-      .badge-recurring { background: rgba(217, 119, 6, 0.15); color: var(--warning); }
-      .badge-new { background: rgba(37, 99, 235, 0.12); color: var(--info); }
-      .badge-sentiment { background: rgba(22, 163, 74, 0.1); color: var(--success); font-size: 10px; padding: 1px 6px; border-radius: 99px; display: inline-block; }
-      .badge-sentiment-neutral { background: rgba(107, 114, 128, 0.1); color: var(--text-muted); }
-      .badge-cat { background: rgba(37, 99, 235, 0.08); color: var(--info); font-size: 10px; padding: 1px 6px; border-radius: 99px; display: inline-block; }
-      .trend-meta { font-size: 11px; color: var(--text-muted); margin-left: 6px; }
+      /* Briefing cards */
+      .briefing-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+        transition: border-color 0.2s;
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+        color: var(--text);
+      }
+      .briefing-card:hover { border-color: var(--primary); text-decoration: none; }
+      .briefing-card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+      .briefing-date { font-size: 16px; font-weight: 600; }
+      .briefing-stats { display: flex; gap: 16px; font-size: 12px; color: var(--text-muted); }
+      .briefing-stat { display: flex; align-items: center; gap: 4px; }
+      .briefing-stat strong { color: var(--text); font-weight: 600; }
+      .briefing-headline { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
+      .briefing-narratives { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .narrative-tag {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 99px;
+        background: rgba(37, 99, 235, 0.08);
+        color: var(--info);
+        white-space: nowrap;
+      }
 
-      .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
-      .bar-label { width: 200px; font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
-      .bar-track { flex: 1; height: 14px; background: var(--border); border-radius: 4px; overflow: hidden; }
-      .bar-fill { height: 100%; background: var(--primary); border-radius: 4px; }
-      .bar-count { width: 30px; text-align: right; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+      /* Narrative heatmap */
+      .heatmap { width: 100%; border-collapse: collapse; font-size: 11px; }
+      .heatmap th { text-align: left; padding: 6px 8px; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border); }
+      .heatmap td { padding: 6px 8px; border-bottom: 1px solid var(--border); }
+      .heatmap-cell { width: 40px; text-align: center; }
+      .heat-dot {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+      }
+      .heat-active { background: var(--primary); opacity: 0.8; }
+      .heat-empty { background: var(--border); opacity: 0.3; }
 
-      .comp-item { margin-bottom: 14px; }
-      .comp-name { font-size: 14px; font-weight: 600; }
-      .comp-count { font-size: 12px; color: var(--text-muted); }
-      .comp-headline { font-size: 13px; margin-top: 2px; }
+      /* Share of voice bar */
+      .sov-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+      .sov-name { width: 130px; font-size: 12px; flex-shrink: 0; }
+      .sov-name.us { font-weight: 600; color: var(--primary); }
+      .sov-track { flex: 1; height: 18px; background: var(--border); border-radius: 4px; overflow: hidden; }
+      .sov-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+      .sov-fill.us { background: var(--chart-us); }
+      .sov-fill.comp { background: var(--chart-comp); opacity: 0.7; }
+      .sov-count { width: 30px; text-align: right; font-size: 12px; font-weight: 600; flex-shrink: 0; }
 
-      .changes-box { background: var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-      .changes-box h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
-      .change-row { display: flex; gap: 8px; margin-bottom: 8px; font-size: 13px; }
-      .check { color: var(--success); font-weight: 700; flex-shrink: 0; }
-      .cross { color: var(--destructive); font-weight: 700; flex-shrink: 0; }
-
-      .card-header-row { display: flex; justify-content: space-between; align-items: baseline; }
-      .count-label { font-size: 12px; color: var(--text-muted); }
       .footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 12px 0 40px; }
+      .empty-state { text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 20px; }
     </style>
   </head>
   <body>
     <div class="container">
 
       <!-- Header -->
-      <div class="text-center" style="margin-bottom: 28px;">
-        <p style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Proposed Layout · Real data from May 12 run</p>
-        <h1>Weekly Briefing</h1>
-        <p class="subtitle">Week ending May 12, 2026</p>
-        <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Weekly strategic overview of our media presence, competitive positioning, and emerging industry narratives across crypto and mainstream outlets.</p>
+      <div class="text-center" style="margin-bottom: 32px;">
+        <h1>📋 Weekly Briefing Archive</h1>
+        <p class="subtitle" style="margin-top: 4px;">Chainalysis media intelligence — weekly strategic briefings with trend tracking.</p>
       </div>
 
-      <!-- Stat Banner -->
-      <div class="card">
-        <div class="stat-grid">
-          <div class="stat-cell">
-            <div class="stat-value color-primary">11</div>
-            <div class="stat-label">Our Mentions</div>
-          </div>
-          <div class="stat-cell">
-            <div class="stat-value color-success">645</div>
-            <div class="stat-label">Narrative</div>
-          </div>
-          <div class="stat-cell">
-            <div class="stat-value color-warning">20</div>
-            <div class="stat-label">Competitor</div>
-          </div>
-          <div class="stat-cell">
-            <div class="stat-value color-info">4</div>
-            <div class="stat-label">Persistent</div>
-          </div>
-        </div>
-      </div>
+      <!-- Dashboard — populated by JS from weekly-data.json -->
+      <div id="dashboard"></div>
 
-      <!-- Strategic Summary -->
-      <div class="card">
-        <div class="card-header"><h2>Strategic Summary</h2></div>
-        <div class="card-body">
-          <p style="font-size: 14px; color: var(--text-muted);">
-            Our research continues to establish thought leadership across stablecoin infrastructure, sanctions enforcement, and AI-driven compliance automation, with particular strength in North Korean threat attribution and emerging markets analysis. Elliptic's $120M fundraise signals intensified competitive pressure in the blockchain intelligence space, while institutional TradFi-crypto convergence accelerates with tokenized securities and repo market innovations gaining mainstream validation.
-          </p>
-          <div style="margin-top: 10px;">
-            <span class="badge-sentiment">7 positive</span>
-            <span class="badge-sentiment-neutral" style="margin-left: 4px;">4 neutral</span>
-          </div>
-        </div>
-      </div>
+      <!-- Briefing list -->
+      <div id="briefing-list"></div>
 
-      <!-- Chainalysis in the News — all 11 -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-header-row">
-            <h2>📰 Chainalysis in the News</h2>
-            <span class="count-label">11 mentions · 1 fintech, 2 blog, 8 niche</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="mention-row">
-            <a href="#" class="mention-title">Chainalysis points to rising adoption of blockchain forecasting</a>
-            <div class="mention-meta">Digital Watch Observatory</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">Chainalysis: India Ranks Second Globally in Crypto Transaction Volume</a>
-            <div class="mention-meta">CoinMarketCap</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">North Korean hackers now dominate crypto theft — and compliance is racing to catch up</a>
-            <div class="mention-meta">crypto.news</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">Stablecoins Could Process $1.5 Quadrillion a Year by 2035: Chainalysis</a>
-            <div class="mention-meta">CoinMarketCap</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">Sumsub CEO warns AI fraud outpaces compliance</a>
-            <div class="mention-meta">crypto.news</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">Sumsub CEO warns AI fraud outpaces compliance</a>
-            <div class="mention-meta">Bitget</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">TradFi Must Pick Blockchains by Asset Purpose, Not Just Brand, Says Chainalysis</a>
-            <div class="mention-meta">CryptoRank</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">Chainalysis: Iran Using Crypto for Hormuz Tolls Would Mark a State Strategy Shift</a>
-            <div class="mention-meta">CryptoRank</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">Crypto Prediction Markets Continue to Expand Globally: Research</a>
-            <div class="mention-meta">Crowdfund Insider</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">Crypto Prediction Markets Explained: How the Blockchain Is Reshaping Forecasting</a>
-            <div class="mention-meta">Chainalysis Blog</div>
-          </div>
-          <div class="mention-row">
-            <a href="#" class="mention-title">Where to Build: A Data-Driven Guide to Blockchain Infrastructure for TradFi Tokenization</a>
-            <div class="mention-meta">Chainalysis Blog</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Persistent Themes -->
-      <div class="card">
-        <div class="card-header">
-          <h2>🔥 Persistent Themes</h2>
-          <p class="subtitle">Narratives shaping the landscape.</p>
-        </div>
-        <div class="card-body">
-          <div class="theme-card theme-persistent">
-            <div>
-              <span class="theme-title">Stablecoin Infrastructure & Payment System Mainstreaming</span>
-              <span class="badge badge-recurring">🔁 Recurring</span>
-              <span class="trend-meta">📈 5x over 30 days · rising</span>
-            </div>
-            <p class="theme-desc">Stablecoins projected to process $1.5 quadrillion annually by 2035; Circle revenue up 20% as regulatory frameworks mature across UK, EU, and US jurisdictions.</p>
-            <p class="theme-relevance">🏢 Our stablecoin forecasting and blockchain adoption metrics position us as trusted infrastructure analysts for payment system transitions.</p>
-            <div class="theme-links">
-              <a href="#">Reuters: Bank of England's Bailey sees 'wrestle' with US on stablecoin regulation</a>
-              <a href="#">Reuters: Circle revenue boosted as stablecoin demand rises amid volatility; shares up</a>
-              <a href="#">CoinMarketCap: Stablecoins Could Process $1.5 Quadrillion a Year by 2035: Chainalysis</a>
-            </div>
-          </div>
-
-          <div class="theme-card theme-persistent">
-            <div>
-              <span class="theme-title">Sanctions Enforcement & Geopolitical Illicit Finance Attribution</span>
-              <span class="badge badge-recurring">🔁 Recurring</span>
-              <span class="trend-meta">📈 5x over 30 days · rising</span>
-            </div>
-            <p class="theme-desc">North Korean hackers now dominate crypto theft; Iran strategy shift potential on Hormuz tolls; TRM Labs reports UK exchanges aiding IRGC sanctions evasion.</p>
-            <p class="theme-relevance">🏢 Our North Korean attribution research and state-level sanctions detection capabilities directly support compliance teams navigating emerging geopolitical risk vectors.</p>
-            <div class="theme-links">
-              <a href="#">crypto.news: North Korean hackers now dominate crypto theft — and compliance is racing to catch up</a>
-              <a href="#">CryptoRank: Chainalysis: Iran Using Crypto for Hormuz Tolls Would Mark a State Strategy Shift</a>
-            </div>
-          </div>
-
-          <div class="theme-card theme-persistent">
-            <div>
-              <span class="theme-title">Institutional TradFi-Crypto Convergence & Tokenized Securities</span>
-              <span class="badge badge-recurring">🔁 Recurring</span>
-              <span class="trend-meta">📈 4x over 30 days · rising</span>
-            </div>
-            <p class="theme-desc">BlackRock launches tokenized money-market funds; Wall Street applies blockchain to $13 trillion repo market; TradFi must select blockchains by asset purpose, not brand.</p>
-            <p class="theme-relevance">🏢 Our data-driven guidance on blockchain infrastructure selection for tokenization directly addresses institutional buyer concerns about technology selection and compliance readiness.</p>
-            <div class="theme-links">
-              <a href="#">Bloomberg: BlackRock Readies Launch of Two Tokenized Money-Market Funds</a>
-              <a href="#">Bloomberg: Wall Street Puts Blockchain to Work in $13 Trillion Repo Market</a>
-            </div>
-          </div>
-
-          <div class="theme-card theme-persistent">
-            <div>
-              <span class="theme-title">AI & Compliance Automation Infrastructure Maturation</span>
-              <span class="badge badge-recurring">🔁 Recurring</span>
-              <span class="trend-meta">➡️ 5x over 30 days · stable</span>
-            </div>
-            <p class="theme-desc">AI fraud outpaces compliance tools; Hut 8 leases Texas AI data center; compliance teams racing to adopt automation at scale across blockchain intelligence.</p>
-            <p class="theme-relevance">🏢 Industry recognition that AI fraud acceleration creates demand for our advanced detection infrastructure positions us favorably as enterprises scale compliance automation.</p>
-            <div class="theme-links">
-              <a href="#">crypto.news: Sumsub CEO warns AI fraud outpaces compliance</a>
-              <a href="#">crypto.news: North Korean hackers now dominate crypto theft — and compliance is racing to catch up</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Emerging This Week -->
-      <div class="card">
-        <div class="card-header">
-          <h2>✨ Emerging This Week</h2>
-          <p class="subtitle">New themes to watch.</p>
-        </div>
-        <div class="card-body">
-          <div class="theme-card theme-emerging">
-            <span class="theme-title">Emerging Markets Crypto Adoption & India's Transaction Dominance</span>
-            <span class="badge badge-new">✨ New</span>
-            <p class="theme-desc">India ranks second globally in crypto transaction volume; rising blockchain forecasting adoption signals acceleration in developing markets infrastructure maturity.</p>
-            <p class="theme-relevance">🏢 Our emerging markets expertise and transaction volume analytics provide institutional partners with confidence in market opportunity sizing and compliance readiness.</p>
-            <div class="theme-links">
-              <a href="#">CoinMarketCap: Chainalysis: India Ranks Second Globally in Crypto Transaction Volume</a>
-              <a href="#">Crowdfund Insider: Crypto Prediction Markets Continue to Expand Globally: Research</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Topic Coverage Heatmap -->
-      <div class="card">
-        <div class="card-header">
-          <h2>📊 Topic Coverage</h2>
-          <p class="subtitle">Articles by policy domain</p>
-        </div>
-        <div class="card-body">
-          <div class="bar-row"><span class="bar-label">Market Integrity & Surveillance</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-count">188</span></div>
-          <div class="bar-row"><span class="bar-label">Sanctions & Illicit Finance</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span class="bar-count">151</span></div>
-          <div class="bar-row"><span class="bar-label">AI & Compliance Automation</span><div class="bar-track"><div class="bar-fill" style="width:74%"></div></div><span class="bar-count">139</span></div>
-          <div class="bar-row"><span class="bar-label">DeFi Regulation & Governance</span><div class="bar-track"><div class="bar-fill" style="width:36%"></div></div><span class="bar-count">68</span></div>
-          <div class="bar-row"><span class="bar-label">Stablecoins & Digital Payments</span><div class="bar-track"><div class="bar-fill" style="width:36%"></div></div><span class="bar-count">67</span></div>
-          <div class="bar-row"><span class="bar-label">National Security & Defence</span><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div><span class="bar-count">57</span></div>
-          <div class="bar-row"><span class="bar-label">International & Emerging Markets</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span class="bar-count">53</span></div>
-          <div class="bar-row"><span class="bar-label">Geopolitics, Macro & Dollar Dominance</span><div class="bar-track"><div class="bar-fill" style="width:26%"></div></div><span class="bar-count">48</span></div>
-        </div>
-      </div>
-
-      <!-- Seizure Scorecard — empty in this run -->
-      <!--
-      <div class="card">
-        <div class="card-header"><h2>📊 Seize & Freeze Scorecard</h2></div>
-        <div class="card-body">
-          <p style="font-size: 13px; color: var(--text-muted);">No seizure data returned in this run.</p>
-        </div>
-      </div>
-      -->
-
-      <!-- Competitor Watch — single unified section -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-header-row">
-            <h2>🏢 Competitor Watch</h2>
-            <span class="count-label">20 articles total</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="comp-item">
-            <span class="comp-name">Arkham Intelligence</span> <span class="comp-count">(15 articles)</span>
-            <div class="comp-headline"><a href="#">$40M Dormant BTC Whale Making A Move After 13 Years</a> — <span style="color:var(--text-muted);font-size:12px;">TradingView</span></div>
-          </div>
-          <hr>
-          <div class="comp-item">
-            <span class="comp-name">Elliptic</span> <span class="comp-count">(4 articles)</span>
-            <div class="comp-headline"><a href="#">Crypto analytics firm Elliptic lands $120 million as AI reshapes blockchain compliance</a> — <span style="color:var(--text-muted);font-size:12px;">CoinDesk</span></div>
-          </div>
-          <hr>
-          <div class="comp-item">
-            <span class="comp-name">TRM Labs</span> <span class="comp-count">(1 article)</span>
-            <div class="comp-headline"><a href="#">TRM Labs' Report Exposes UK Crypto Exchanges Aiding Iran's IRGC in Evading Sanctions</a> — <span style="color:var(--text-muted);font-size:12px;">Decrypt</span></div>
-          </div>
-          <hr>
-          <div class="comp-item">
-            <span class="comp-name" style="color: var(--text-muted);">CipherTrace</span> <span class="comp-count">(0 articles)</span>
-            <div style="font-size: 12px; color: var(--text-muted);">No coverage this week.</div>
-          </div>
-          <hr>
-          <div class="comp-item">
-            <span class="comp-name" style="color: var(--text-muted);">Nansen</span> <span class="comp-count">(0 articles)</span>
-            <div style="font-size: 12px; color: var(--text-muted);">No coverage this week.</div>
-          </div>
-          <hr>
-          <div class="comp-item">
-            <span class="comp-name" style="color: var(--text-muted);">Crystal Intelligence</span> <span class="comp-count">(0 articles)</span>
-            <div style="font-size: 12px; color: var(--text-muted);">No coverage this week.</div>
-          </div>
-          <hr>
-          <div class="comp-item">
-            <span class="comp-name" style="color: var(--text-muted);">Solidus Labs</span> <span class="comp-count">(0 articles)</span>
-            <div style="font-size: 12px; color: var(--text-muted);">No coverage this week.</div>
-          </div>
-          <hr>
-          <div class="comp-item">
-            <span class="comp-name" style="color: var(--text-muted);">Merkle Science</span> <span class="comp-count">(0 articles)</span>
-            <div style="font-size: 12px; color: var(--text-muted);">No coverage this week.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- NO Market Landscape -->
-      <!-- NO Competitor Spotlight -->
-
-      <!-- Changes callout -->
-      <div class="changes-box">
-        <h3>📋 What changed vs. current layout</h3>
-        <div class="change-row"><span class="check">✓</span><span><strong>Mentions:</strong> Now shows all 11 articles instead of truncating to 5 with no explanation. (Current layout shows "11 mentions" in the stat banner but only lists 5.)</span></div>
-        <div class="change-row"><span class="cross">✕</span><span><strong>Market Landscape:</strong> Removed. Was a 2-3 paragraph prose block restating what the Persistent Themes + Executive Summary already cover in a more structured, scannable format.</span></div>
-        <div class="change-row"><span class="cross">✕</span><span><strong>Competitor Spotlight:</strong> Removed. Was an AI-generated prose summary of just TRM Labs and Elliptic — redundant with the Competitor Watch section which covers all 8 competitors with actual article links.</span></div>
-      </div>
-
-      <!-- Footer -->
-      <div class="footer">Chainalysis Weekly Briefing · May 12, 2026 · 1,045 articles analysed</div>
-
+      <div class="footer">Chainalysis Weekly Briefing Archive</div>
     </div>
+
+    <script>
+      const DATA_PATH = 'data/weekly-data.json';
+
+      async function init() {
+        let data;
+        try {
+          const resp = await fetch(DATA_PATH);
+          data = await resp.json();
+        } catch (e) {
+          document.getElementById('briefing-list').innerHTML =
+            '<div class="empty-state">Could not load briefing data.</div>';
+          return;
+        }
+
+        // Sort newest first
+        data.sort((a, b) => b.date.localeCompare(a.date));
+
+        renderDashboard(data);
+        renderBriefingList(data);
+      }
+
+      function formatDate(dateStr) {
+        const d = new Date(dateStr + 'T00:00:00');
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+
+      function renderDashboard(data) {
+        const el = document.getElementById('dashboard');
+        if (data.length === 0) { el.innerHTML = ''; return; }
+
+        // Reverse for chronological charts
+        const chrono = [...data].reverse();
+        const latest = data[0];
+        const prev = data.length > 1 ? data[1] : null;
+
+        // Delta helper
+        function delta(curr, prevVal) {
+          if (prevVal === null || prevVal === undefined) return '';
+          const d = curr - prevVal;
+          if (d === 0) return ' <span style="color:var(--text-muted)">→ flat</span>';
+          const arrow = d > 0 ? '↑' : '↓';
+          const color = d > 0 ? 'var(--success)' : 'var(--destructive)';
+          return ` <span style="color:${color}">${arrow}${Math.abs(d)}</span>`;
+        }
+
+        let html = '';
+
+        // ── Latest stats row ───────────────────────────
+        html += `<div class="card">
+          <div class="card-header"><h2>Latest: Week of ${formatDate(latest.date)}</h2></div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;">
+              <div>
+                <div style="font-size:28px;font-weight:700;color:var(--primary);">${latest.mentions}</div>
+                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Mentions${delta(latest.mentions, prev?.mentions)}</div>
+              </div>
+              <div>
+                <div style="font-size:28px;font-weight:700;color:var(--success);">${latest.narrative}</div>
+                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Narrative</div>
+              </div>
+              <div>
+                <div style="font-size:28px;font-weight:700;color:var(--warning);">${latest.competitor_total}</div>
+                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Competitor${delta(latest.competitor_total, prev?.competitor_total)}</div>
+              </div>
+              <div>
+                <div style="font-size:28px;font-weight:700;color:var(--info);">${latest.persistent_count}</div>
+                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;">Persistent</div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+
+        // ── Charts grid ────────────────────────────────
+        html += '<div class="dash-grid">';
+
+        // 1. Source Quality Mix
+        html += `<div class="card">
+          <div class="card-header"><h3>📡 Source Quality Mix</h3></div>
+          <div class="card-body">${renderSourceBars(chrono)}</div>
+        </div>`;
+
+        // 2. Sentiment Trend
+        html += `<div class="card">
+          <div class="card-header"><h3>💬 Sentiment Trend</h3></div>
+          <div class="card-body">${renderSentimentBars(chrono)}</div>
+        </div>`;
+
+        // 3. Share of Voice
+        html += `<div class="card">
+          <div class="card-header"><h3>📊 Share of Voice — Us vs Competitors</h3></div>
+          <div class="card-body">${renderShareOfVoice(latest)}</div>
+        </div>`;
+
+        // 4. Mention Trend (sparkline)
+        html += `<div class="card">
+          <div class="card-header"><h3>📈 Mention Trend</h3></div>
+          <div class="card-body">${renderMentionTrend(chrono)}</div>
+        </div>`;
+
+        html += '</div>'; // close dash-grid
+
+        // 5. Narrative Persistence Heatmap (full width)
+        html += `<div class="card">
+          <div class="card-header"><h3>🗓️ Narrative Persistence Tracker</h3>
+            <p class="subtitle">Which themes keep appearing week after week</p>
+          </div>
+          <div class="card-body" style="overflow-x:auto;">${renderNarrativeHeatmap(chrono)}</div>
+        </div>`;
+
+        // 6. Domain Coverage Trend (full width)
+        html += `<div class="card">
+          <div class="card-header"><h3>🔥 Policy Domain Hotspots</h3>
+            <p class="subtitle">Top domains by article volume this week</p>
+          </div>
+          <div class="card-body">${renderDomainBars(latest)}</div>
+        </div>`;
+
+        el.innerHTML = html;
+      }
+
+      function renderSourceBars(data) {
+        const cats = ['mainstream', 'crypto', 'fintech', 'blog', 'niche'];
+        const colors = {
+          mainstream: 'var(--chart-mainstream)',
+          crypto: 'var(--chart-crypto)',
+          fintech: 'var(--chart-fintech)',
+          blog: 'var(--chart-blog)',
+          niche: 'var(--chart-niche)'
+        };
+
+        let html = '';
+        for (const week of data) {
+          const mc = week.mention_categories || {};
+          const total = Object.values(mc).reduce((s, v) => s + v, 0) || 1;
+          html += `<div class="spark-row">
+            <span class="spark-label">${formatDate(week.date)}</span>
+            <div class="spark-bar">`;
+          for (const cat of cats) {
+            const pct = ((mc[cat] || 0) / total * 100);
+            if (pct > 0) {
+              html += `<div class="spark-segment" style="width:${pct}%;background:${colors[cat]}" title="${cat}: ${mc[cat] || 0}"></div>`;
+            }
+          }
+          html += `</div><span class="spark-value">${total}</span></div>`;
+        }
+        html += `<div class="chart-legend">`;
+        for (const cat of cats) {
+          html += `<span class="legend-item"><span class="legend-dot" style="background:${colors[cat]}"></span>${cat}</span>`;
+        }
+        html += '</div>';
+        return html;
+      }
+
+      function renderSentimentBars(data) {
+        let html = '';
+        for (const week of data) {
+          const s = week.sentiment || {};
+          const total = (s.positive || 0) + (s.neutral || 0) + (s.negative || 0) || 1;
+          html += `<div class="spark-row">
+            <span class="spark-label">${formatDate(week.date)}</span>
+            <div class="spark-bar">
+              <div class="spark-segment" style="width:${(s.positive||0)/total*100}%;background:var(--chart-positive)" title="Positive: ${s.positive||0}"></div>
+              <div class="spark-segment" style="width:${(s.neutral||0)/total*100}%;background:var(--chart-neutral)" title="Neutral: ${s.neutral||0}"></div>
+              <div class="spark-segment" style="width:${(s.negative||0)/total*100}%;background:var(--chart-negative)" title="Negative: ${s.negative||0}"></div>
+            </div>
+            <span class="spark-value">${total}</span>
+          </div>`;
+        }
+        html += `<div class="chart-legend">
+          <span class="legend-item"><span class="legend-dot" style="background:var(--chart-positive)"></span>positive</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--chart-neutral)"></span>neutral</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--chart-negative)"></span>negative</span>
+        </div>`;
+        return html;
+      }
+
+      function renderShareOfVoice(latest) {
+        const comps = latest.competitors || {};
+        const entries = [
+          { name: 'Chainalysis', count: latest.mentions, isUs: true },
+          ...Object.entries(comps)
+            .filter(([_, c]) => c > 0)
+            .sort((a, b) => b[1] - a[1])
+            .map(([name, count]) => ({ name, count, isUs: false }))
+        ];
+        const max = Math.max(...entries.map(e => e.count), 1);
+
+        let html = '';
+        for (const e of entries) {
+          const pct = (e.count / max * 100);
+          html += `<div class="sov-row">
+            <span class="sov-name ${e.isUs ? 'us' : ''}">${e.isUs ? '● ' : ''}${e.name}</span>
+            <div class="sov-track">
+              <div class="sov-fill ${e.isUs ? 'us' : 'comp'}" style="width:${pct}%"></div>
+            </div>
+            <span class="sov-count">${e.count}</span>
+          </div>`;
+        }
+        return html;
+      }
+
+      function renderMentionTrend(data) {
+        if (data.length < 2) {
+          return `<div style="text-align:center;padding:20px;">
+            <div style="font-size:48px;font-weight:700;color:var(--primary);">${data[0]?.mentions || 0}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">mentions this week — trend line appears after 2+ weeks</div>
+          </div>`;
+        }
+
+        const max = Math.max(...data.map(d => d.mentions), 1);
+        const h = 120, w = 300;
+        const step = w / (data.length - 1);
+        const points = data.map((d, i) => `${i * step},${h - (d.mentions / max * (h - 20)) - 10}`);
+        const line = points.join(' ');
+
+        let svg = `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px;">`;
+        // Grid lines
+        for (let i = 0; i <= 4; i++) {
+          const y = 10 + (h - 20) / 4 * i;
+          svg += `<line x1="0" y1="${y}" x2="${w}" y2="${y}" stroke="var(--border)" stroke-width="0.5"/>`;
+        }
+        // Line
+        svg += `<polyline points="${line}" fill="none" stroke="var(--chart-us)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+        // Dots
+        data.forEach((d, i) => {
+          const x = i * step;
+          const y = h - (d.mentions / max * (h - 20)) - 10;
+          svg += `<circle cx="${x}" cy="${y}" r="4" fill="var(--chart-us)"/>`;
+          svg += `<text x="${x}" y="${y - 10}" text-anchor="middle" font-size="10" fill="var(--text-muted)">${d.mentions}</text>`;
+        });
+        svg += '</svg>';
+
+        // Date labels
+        svg += '<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-top:4px;">';
+        data.forEach(d => { svg += `<span>${d.date.slice(5)}</span>`; });
+        svg += '</div>';
+
+        return svg;
+      }
+
+      function renderNarrativeHeatmap(data) {
+        // Collect all unique narratives across all weeks
+        const allNarratives = [];
+        const seen = new Set();
+        for (const week of data) {
+          for (const n of (week.narratives || [])) {
+            const key = n.toLowerCase().slice(0, 40);
+            if (!seen.has(key)) {
+              seen.add(key);
+              allNarratives.push(n);
+            }
+          }
+        }
+
+        if (allNarratives.length === 0) return '<div class="empty-state">No narrative data yet.</div>';
+
+        let html = '<table class="heatmap"><thead><tr><th>Narrative</th>';
+        for (const week of data) {
+          html += `<th class="heatmap-cell">${week.date.slice(5)}</th>`;
+        }
+        html += '</tr></thead><tbody>';
+
+        for (const narrative of allNarratives) {
+          html += `<tr><td style="font-size:12px;max-width:250px;">${narrative.length > 50 ? narrative.slice(0, 50) + '…' : narrative}</td>`;
+          for (const week of data) {
+            const weekNorms = (week.narratives || []).map(n => n.toLowerCase().slice(0, 40));
+            const active = weekNorms.includes(narrative.toLowerCase().slice(0, 40));
+            html += `<td class="heatmap-cell"><span class="heat-dot ${active ? 'heat-active' : 'heat-empty'}"></span></td>`;
+          }
+          html += '</tr>';
+        }
+        html += '</tbody></table>';
+
+        if (data.length < 2) {
+          html += '<p style="font-size:11px;color:var(--text-muted);margin-top:8px;text-align:center;">Persistence patterns will emerge after 2+ weeks of data.</p>';
+        }
+
+        return html;
+      }
+
+      function renderDomainBars(latest) {
+        const domains = latest.top_domains || [];
+        if (domains.length === 0) return '<div class="empty-state">No domain data.</div>';
+        const max = domains[0]?.count || 1;
+
+        let html = '';
+        for (const d of domains) {
+          const pct = (d.count / max * 100);
+          html += `<div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+            <span style="width:220px;font-size:12px;color:var(--text-muted);flex-shrink:0;">${d.name}</span>
+            <div style="flex:1;height:14px;background:var(--border);border-radius:4px;overflow:hidden;">
+              <div style="width:${pct}%;height:100%;background:var(--primary);border-radius:4px;"></div>
+            </div>
+            <span style="width:30px;text-align:right;font-size:12px;font-weight:600;flex-shrink:0;">${d.count}</span>
+          </div>`;
+        }
+        return html;
+      }
+
+      function renderBriefingList(data) {
+        const el = document.getElementById('briefing-list');
+        if (data.length === 0) {
+          el.innerHTML = '<div class="empty-state">No briefings yet.</div>';
+          return;
+        }
+
+        let html = '<h2 style="margin-bottom:16px;font-size:16px;">All Briefings</h2>';
+
+        for (const week of data) {
+          const narTags = (week.narratives || []).slice(0, 4).map(n =>
+            `<span class="narrative-tag">${n.length > 35 ? n.slice(0, 35) + '…' : n}</span>`
+          ).join('');
+
+          html += `<a href="${week.url}" class="briefing-card">
+            <div class="briefing-card-header">
+              <span class="briefing-date">Week of ${formatDate(week.date)}</span>
+              <div class="briefing-stats">
+                <span class="briefing-stat"><strong style="color:var(--primary)">${week.mentions}</strong> mentions</span>
+                <span class="briefing-stat"><strong style="color:var(--warning)">${week.competitor_total}</strong> competitor</span>
+                <span class="briefing-stat">${week.articles_analysed} analysed</span>
+              </div>
+            </div>
+            <div class="briefing-headline">${week.headline || ''}</div>
+            <div class="briefing-narratives">${narTags}</div>
+          </a>`;
+        }
+
+        el.innerHTML = html;
+      }
+
+      init();
+    </script>
   </body>
 </html>
