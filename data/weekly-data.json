@@ -1,0 +1,50 @@
+[
+  {
+    "date": "2026-05-12",
+    "url": "briefings/2026-05-12.html",
+    "mentions": 11,
+    "narrative": 645,
+    "competitor_total": 20,
+    "persistent_count": 4,
+    "emerging_count": 1,
+    "articles_analysed": 1045,
+    "mention_categories": {
+      "mainstream": 0,
+      "crypto": 0,
+      "fintech": 1,
+      "blog": 2,
+      "niche": 8
+    },
+    "sentiment": {
+      "positive": 7,
+      "neutral": 4,
+      "negative": 0
+    },
+    "competitors": {
+      "Arkham Intelligence": 15,
+      "Elliptic": 4,
+      "TRM Labs": 1,
+      "CipherTrace": 0,
+      "Nansen": 0,
+      "Crystal Intelligence": 0,
+      "Solidus Labs": 0,
+      "Merkle Science": 0
+    },
+    "top_domains": [
+      {"name": "Market Integrity & Surveillance", "count": 188},
+      {"name": "Sanctions & Illicit Finance", "count": 151},
+      {"name": "AI & Compliance Automation", "count": 139},
+      {"name": "DeFi Regulation & Governance", "count": 68},
+      {"name": "Stablecoins & Digital Payments", "count": 67},
+      {"name": "National Security & Defence", "count": 57}
+    ],
+    "narratives": [
+      "Stablecoin Infrastructure & Payment System Mainstreaming",
+      "Sanctions Enforcement & Geopolitical Illicit Finance Attribution",
+      "Institutional TradFi-Crypto Convergence & Tokenized Securities",
+      "AI & Compliance Automation Infrastructure Maturation",
+      "Emerging Markets Crypto Adoption & India's Transaction Dominance"
+    ],
+    "headline": "Elliptic's $120M raise intensifies competitive pressure while our research drives thought leadership across stablecoins, sanctions, and AI compliance."
+  }
+]
