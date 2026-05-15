@@ -1,0 +1,20 @@
+name: Publish Weekly Briefing
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Briefing date (YYYY-MM-DD)'
+        required: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish briefing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL_WEEKLY: ${{ secrets.SLACK_WEBHOOK_URL_WEEKLY }}
+        run: python scripts/publish_briefing.py ${{ inputs.date }} --repo ${{ github.repository }}
