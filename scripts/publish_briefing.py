@@ -199,9 +199,16 @@ def build_final_html(data, date):
 
     landscape_html = ""
     if data.get("market_landscape"):
-        landscape_html = (f'<div class="card"><div class="card-header"><h2>🌍 Market Landscape</h2></div>'
-                          f'<div class="card-body"><p style="font-size:14px;color:var(--text-muted);line-height:1.7">'
-                          f'{data["market_landscape"]}</p></div></div>')
+        ml = data["market_landscape"]
+        if isinstance(ml, list):
+            sections = "".join(
+                f'<div style="margin-bottom:16px"><h3 style="font-size:13px;font-weight:600;margin-bottom:4px">{s.get("title","")}</h3>'
+                f'<p style="font-size:14px;color:var(--text-muted);line-height:1.7">{s.get("body","")}</p></div>'
+                for s in ml)
+        else:
+            paragraphs = [p.strip() for p in str(ml).split("\n\n") if p.strip()]
+            sections = "".join(f'<p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:14px">{p}</p>' for p in paragraphs)
+        landscape_html = f'<div class="card"><div class="card-header"><h2>🌍 Market Landscape</h2></div><div class="card-body">{sections}</div></div>'
 
     spotlight_html = ""
     if data.get("spotlight_trm") or data.get("spotlight_elliptic"):
